@@ -26,7 +26,14 @@ const YOUTUBE_PLUGIN_URL = "plugin://plugin.video.youtube/play/";
 const TUBED_PLUGIN_URL = "plugin://plugin.video.tubed/?mode=play";
 
 /**
- * Génère l'URL d'une vidéo dans l'extension YouTube ou Tubed.
+ * L'URL de l'extension <em>sendtokodi</em> pour lire des vidéos issues de YouTube.
+ *
+ * @type {string}
+ */
+const SENDTOKODI_PLUGIN_URL = "plugin://plugin.video.sendtokodi/?";
+
+/**
+ * Génère l'URL d'une vidéo dans l'extension YouTube ou Tubed ou sendtokodi.
  *
  * @param {string}  videoId   L'identifiant de la vidéo YouTube.
  * @param {boolean} incognito La marque indiquant s'il faut lire la vidéo en
@@ -38,7 +45,15 @@ export const generateVideoUrl = async function (videoId, incognito) {
     const addons = await kodi.addons.getAddons("video");
     // Si les deux extensions YouTube et Tubed sont présentes ou si aucune est
     // présente : envoyer les vidéos à YouTube ; sinon envoyer à l'extension
-    // présente.
+    // présente à moins que sendtokodi ne soit préféré.
+    const configSendToKodi = await browser.storage.local.get(["youtube-sendtokodi"]);
+    if (
+        ("enabled" === configSendToKodi["youtube-sendtokodi"]) &&
+        addons.includes("plugin.video.sendtokodi")
+    ) {
+        return `${SENDTOKODI_PLUGIN_URL}https://www.youtube.com/watch?v=${videoId}`;
+    }
+
     if (
         addons.includes("plugin.video.tubed") &&
         !addons.includes("plugin.video.youtube")
@@ -65,7 +80,15 @@ export const generatePlaylistUrl = async function (playlistId, incognito) {
     const addons = await kodi.addons.getAddons("video");
     // Si les deux extensions YouTube et Tubed sont présentes ou si aucune est
     // présente : envoyer les vidéos à YouTube ; sinon envoyer à l'extension
-    // présente.
+    // présente à moins que sendtokodi ne soit préféré.
+    const configSendToKodi = await browser.storage.local.get(["youtube-sendtokodi"]);
+    if (
+        ("enabled" === configSendToKodi["youtube-sendtokodi"]) &&
+        addons.includes("plugin.video.sendtokodi")
+    ) {
+        return `${SENDTOKODI_PLUGIN_URL}https://www.youtube.com/playlist?list=${playlistId}`;
+    }
+
     if (
         addons.includes("plugin.video.tubed") &&
         !addons.includes("plugin.video.youtube")
@@ -101,4 +124,5 @@ export const extract = matchPattern(
     action,
     "plugin://plugin.video.youtube/play/*",
     "plugin://plugin.video.tubed/*",
+    "plugin://plugin.video.sendtokodi/*"
 );
