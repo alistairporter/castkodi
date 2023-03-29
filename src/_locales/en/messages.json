@@ -380,6 +380,15 @@
   "options_youtubeTitle_textcontent": {
     "message": "YouTube"
   },
+  "options_youtubeSendtokodiDescription_textcontent": {
+    "message": "Which Kodi addon shoukd be used for playback of YouTube videos and playlists:"
+  },
+  "options_youtubeSendtokodiEnabled_textcontent": {
+    "message": "Use the SendToKodi addon"
+  },
+  "options_youtubeSendtokodiDisabled_textcontent": {
+    "message": "Use the YouTube or Tubed addons"
+  },
   "options_youtubePlaylistDescription_textcontent": {
     "message": "For links to video in playlist:"
   },

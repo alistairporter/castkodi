@@ -34,6 +34,7 @@ export const initialize = async function () {
         "popup-wheel": "normal",
         "menu-actions": ["send", "insert", "add"],
         "menu-contexts": DEFAULT_MENU_CONTEXTS[name],
+        "youtube-sendtokodi": "disabled",
         "youtube-playlist": "playlist",
         "youtube-order": "default",
     });
